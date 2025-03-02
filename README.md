@@ -28,8 +28,10 @@ Link Saver é meu primeiro aplicativo mobile desenvolvido para entender os funda
 
 ## 📸 Screenshots
 
-<!-- [Aqui você pode adicionar screenshots do seu aplicativo] -->
-Em breve...
+<div align="center">
+  <img src="assets/images/screenshot_1.jpeg" alt="Screenshot 1" width="300" />
+  <img src="assets/images/screenshot_2.jpeg" alt="Screenshot 2" width="300" />
+</div>
 
 ## 📝 Aprendizados
 

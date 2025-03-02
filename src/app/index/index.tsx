@@ -27,12 +27,35 @@ export default function Index() {
       <Categories selected={category} onChange={setCategory} />
 
       <FlatList
-        data={[1, 2, 3, 4]}
-        keyExtractor={(item) => item.toString()}
+        data={
+          [
+            {
+              id: 1,
+              name: "Rocketseat",
+              url: "https://www.rocketseat.com.br"
+            },
+            {
+              id: 2,
+              name: "Google",
+              url: "https://www.google.com"
+            },
+            {
+              id: 3,
+              name: "Facebook",
+              url: "https://www.facebook.com"
+            },
+            {
+              id: 4,
+              name: "Twitter",
+              url: "https://www.twitter.com"
+            }
+          ]
+        }
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <Link name="Rocketseat" 
-          url="https://www.google.com"
-          onDetails={() => { console.log("Details") }} />
+          <Link name={item.name}
+            url={item.url}
+            onDetails={() => { console.log("Details") }} />
         )}
         style={styles.links}
         contentContainerStyle={styles.linksContent}
@@ -60,9 +83,9 @@ export default function Index() {
 
             <View style={styles.modalFooter}>
               <Option name="Excluir" icon="delete" />
-              <Option name="Abrir" icon="open-in-new" variant="secondary"/>
+              <Option name="Abrir" icon="open-in-new" variant="secondary" />
             </View>
-            
+
           </View>
         </View>
       </Modal>
