@@ -7,9 +7,14 @@ import { Categories } from "@/components/categories";
 import { Input } from "@/components/input";
 import { Button } from "@/components/button";
 import { useState } from "react";
+import { linkStorage } from "@/storage/link-storage";
+
+
+
+
 
 export default function Add() {
-  
+
   const [name, setName] = useState("");
   const [url, setUrl] = useState("");
   const [category, setCategory] = useState("");
@@ -22,41 +27,59 @@ export default function Add() {
       '\\[?[a-fA-F0-9]*:[a-fA-F0-9:%.~+\\-]*\\])' + // IPv6
       '(\\:\\d+)?(\\/[-a-z\\d%_.~+:]*)*' + // caminho
       '(\\?[;&a-z\\d%_.~+=-]*)?' + // consulta
-      '(\\#[-a-z\\d_]*)?$','i'); // fragmento
+      '(\\#[-a-z\\d_]*)?$', 'i'); // fragmento
     return !!pattern.test(url);
   }
 
-  function handleAddLink() {
+  async function handleAddLink() {
 
-    if(!category) {
-      Alert.alert("Categoria", "Selecione uma categoria");
-      return;
-    }
 
-    if(!name.trim()) {
-      Alert.alert("Nome do Link", "Digite o nome do link");
-      return;
-    }
+    try {
 
-    if(!url.trim()) {
-      Alert.alert("Url", "Digite a url do link");
-      return;
-    }
-
-    if (!isValidUrl(url.trim())) {
-      Alert.alert("Url", "Digite uma URL válida");
-      return;
-    }
-    
-    console.log(
-      {
-        category: category,
-        name: name,
-        url: url
+      if (!category) {
+        Alert.alert("Categoria", "Selecione uma categoria");
+        return;
       }
-    );
+
+      if (!name.trim()) {
+        Alert.alert("Nome do Link", "Digite o nome do link");
+        return;
+      }
+
+      if (!url.trim()) {
+        Alert.alert("Url", "Digite a url do link");
+        return;
+      }
+
+      if (!isValidUrl(url.trim())) {
+        Alert.alert("Url", "Digite uma URL válida");
+        return;
+      }
+
+
+      await linkStorage.saveLink({
+        id: new Date().getTime().toString(),
+        name: name,
+        url: url,
+        category: category
+      });
+
+      Alert.alert("Sucesso", "Link adicionado com sucesso", [
+        {
+          text: "OK",
+          onPress: () => router.back()
+        }
+      ]);
+
+
+
+    } catch (error) {
+      Alert.alert("Erro", "Erro ao adicionar link");
+      console.log(error);
+    } 
+
   }
-  
+
 
   return (
     <View style={styles.container}>
@@ -70,19 +93,19 @@ export default function Add() {
         Selecione uma categoria
       </Text>
 
-      <Categories 
-        onChange={setCategory} 
-        selected={category} 
+      <Categories
+        onChange={setCategory}
+        selected={category}
       />
 
       <View style={styles.form}>
-        <Input 
+        <Input
           name="Nome do Link"
           placeholder="Nome do Link"
           onChangeText={(value) => setName(value)}
           autoCorrect={false}
         />
-        <Input 
+        <Input
           name="Url"
           placeholder="https://www.google.com"
           onChangeText={(value) => setUrl(value)}

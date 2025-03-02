@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
     maxHeight: 52,
   },
   content: {
-    gap: 16,
+    gap: 24,
     paddingHorizontal: 24
   },
 });
